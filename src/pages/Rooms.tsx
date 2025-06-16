@@ -1,5 +1,5 @@
-
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import RoomCarousel from '@/components/RoomCarousel';
@@ -19,6 +19,7 @@ const Rooms = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-fade-in');
+          observer.unobserve(entry.target); // Stop observing once animated
         }
       });
     }, observerOptions);
@@ -27,7 +28,11 @@ const Rooms = () => {
       if (section) observer.observe(section);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      sectionsRef.current.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
   }, []);
 
   const addToRefs = (el: HTMLDivElement) => {
@@ -38,64 +43,84 @@ const Rooms = () => {
 
   const roomDetails = [
     {
-      name: "Deluxe Garden Suite",
+      name: "Room 1",
       size: "450 sq ft",
       occupancy: "2 guests",
       bed: "King Size",
       view: "Garden & Mountain",
-      price: "$299",
-      amenities: ["Private Garden Terrace", "Luxury Marble Bathroom", "Walk-in Closet", "Minibar", "Coffee Station", "High-Speed WiFi"],
+     price: "Negotiable: 1999/night",
+      amenities: ["Private Garden Terrace", "Luxury Marble Bathroom", "Walk-in Closet", "Coffee Station", "High-Speed WiFi"],
       description: "Our most spacious accommodation featuring a private garden terrace with stunning mountain views. Perfect for romantic getaways or special occasions.",
-      image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04"
+      image: "../../public/ner1.jpg"
     },
     {
-      name: "Mountain View Room",
+      name: "Room 2",
       size: "350 sq ft",
       occupancy: "2 guests", 
-      bed: "Queen Size",
+      bed: "Big Size",
       view: "Mountain View",
-      price: "$199",
-      amenities: ["Panoramic Mountain Views", "Work Desk", "Seating Area", "Mini Refrigerator", "Premium Bedding", "Complimentary WiFi"],
+      price: "Negotiable: 1999/night",
+      amenities: ["Panoramic Mountain Views", "Work Desk", "Seating Area",],
       description: "Elegantly appointed room with floor-to-ceiling windows offering breathtaking mountain vistas. Ideal for business travelers and nature enthusiasts.",
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+      image: "../../public/ner2.jpg"
     },
     {
-      name: "Romantic Hideaway",
+      name: "Room 3",
       size: "400 sq ft",
       occupancy: "2 guests",
       bed: "King Size",
       view: "Private Balcony",
-      price: "$349",
-      amenities: ["Private Fireplace", "Champagne Service", "Rose Petal Turndown", "Luxury Bath Products", "Private Balcony", "Romantic Lighting"],
+      price: "Negotiable: 1999/night",
+      amenities: ["Champagne Service", "Rose Petal Turndown", "Luxury Bath Products", "Private Balcony", "Romantic Lighting"],
       description: "An intimate retreat designed for couples, featuring a cozy fireplace and private balcony. Includes romantic touches and premium amenities.",
-      image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625"
+      image: "../../public/ner3.jpg"
     }
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <Header />
 
+      {/* Inline CSS for Animation */}
+      <style>
+        {`
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+          }
+          .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+          }
+          .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+          }
+        `}
+      </style>
+
       {/* Hero Section */}
-      <section className="relative h-96 flex items-center justify-center bg-luxury-navy">
-        <div className="text-center text-white space-y-4 px-4">
-          <h1 className="font-playfair text-5xl md:text-6xl font-bold">
-            Our <span className="text-luxury-gold">Rooms</span>
+      <section className="relative h-80 sm:h-96 flex items-center justify-center bg-[#1A2A44] text-white">
+        <div className="text-center space-y-4 px-4 sm:px-6">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+            Our <span className="text-[#D4A373]">Rooms</span>
           </h1>
-          <p className="font-inter text-xl opacity-90 max-w-2xl mx-auto">
+          <p className="font-sans text-base sm:text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
             Discover thoughtfully designed accommodations that blend luxury with comfort
           </p>
         </div>
       </section>
 
       {/* Room Carousel Section */}
-      <section className="py-20 bg-luxury-cream">
-        <div className="container mx-auto px-4">
-          <div ref={addToRefs} className="text-center mb-16 opacity-0">
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-luxury-navy mb-6">
+      <section className="py-16 sm:py-20 bg-[#F5F0E6]">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div ref={addToRefs} className="text-center mb-12 sm:mb-16 opacity-0">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A2A44] mb-6">
               Featured Accommodations
             </h2>
-            <p className="font-inter text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="font-sans text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Browse our carefully curated selection of rooms, each designed to provide 
               a unique and memorable experience for every type of traveler.
             </p>
@@ -108,69 +133,69 @@ const Rooms = () => {
       </section>
 
       {/* Detailed Room Grid */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div ref={addToRefs} className="text-center mb-16 opacity-0">
-            <h2 className="font-playfair text-4xl font-bold text-luxury-navy mb-6">
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div ref={addToRefs} className="text-center mb-12 sm:mb-16 opacity-0">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A2A44] mb-6">
               Room Details & Amenities
             </h2>
-            <p className="font-inter text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="font-sans text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
               Explore the specific features and amenities available in each of our room types.
             </p>
           </div>
 
-          <div className="space-y-20">
+          <div className="space-y-16 sm:space-y-20">
             {roomDetails.map((room, index) => (
-              <div key={index} ref={addToRefs} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center opacity-0 ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
+              <div key={index} ref={addToRefs} className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center opacity-0 ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
                 <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                   <img
                     src={room.image}
                     alt={room.name}
-                    className="rounded-2xl shadow-2xl w-full h-[500px] object-cover hover-lift"
+                    className="rounded-2xl shadow-xl w-full h-64 sm:h-80 lg:h-96 object-cover hover-lift"
                   />
                 </div>
                 
                 <div className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
                   <div>
-                    <h3 className="font-playfair text-3xl font-bold text-luxury-navy mb-2">
+                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1A2A44] mb-2">
                       {room.name}
                     </h3>
-                    <p className="text-luxury-gold font-inter text-2xl font-semibold">
+                    <p className="text-[#D4A373] font-sans text-xl sm:text-2xl font-semibold">
                       {room.price}/night
                     </p>
                   </div>
 
-                  <p className="font-inter text-lg text-gray-600 leading-relaxed">
+                  <p className="font-sans text-base sm:text-lg text-gray-600 leading-relaxed">
                     {room.description}
                   </p>
 
                   {/* Room Specs */}
                   <div className="grid grid-cols-2 gap-4 py-4">
                     <div className="flex items-center space-x-3">
-                      <MapPin className="w-5 h-5 text-luxury-gold" />
+                      <MapPin className="w-5 h-5 text-[#D4A373]" />
                       <div>
-                        <p className="font-inter font-medium text-luxury-navy">Size</p>
+                        <p className="font-sans font-medium text-[#1A2A44]">Size</p>
                         <p className="text-gray-600 text-sm">{room.size}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <Users className="w-5 h-5 text-luxury-gold" />
+                      <Users className="w-5 h-5 text-[#D4A373]" />
                       <div>
-                        <p className="font-inter font-medium text-luxury-navy">Occupancy</p>
+                        <p className="font-sans font-medium text-[#1A2A44]">Occupancy</p>
                         <p className="text-gray-600 text-sm">{room.occupancy}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <Calendar className="w-5 h-5 text-luxury-gold" />
+                      <Calendar className="w-5 h-5 text-[#D4A373]" />
                       <div>
-                        <p className="font-inter font-medium text-luxury-navy">Bed Type</p>
+                        <p className="font-sans font-medium text-[#1A2A44]">Bed Type</p>
                         <p className="text-gray-600 text-sm">{room.bed}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <MapPin className="w-5 h-5 text-luxury-gold" />
+                      <MapPin className="w-5 h-5 text-[#D4A373]" />
                       <div>
-                        <p className="font-inter font-medium text-luxury-navy">View</p>
+                        <p className="font-sans font-medium text-[#1A2A44]">View</p>
                         <p className="text-gray-600 text-sm">{room.view}</p>
                       </div>
                     </div>
@@ -178,24 +203,29 @@ const Rooms = () => {
 
                   {/* Amenities */}
                   <div>
-                    <h4 className="font-playfair text-xl font-semibold text-luxury-navy mb-3">
+                    <h4 className="font-serif text-lg sm:text-xl font-semibold text-[#1A2A44] mb-3">
                       Room Amenities
                     </h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {room.amenities.map((amenity, idx) => (
                         <div key={idx} className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-luxury-gold rounded-full"></div>
+                          <div className="w-2 h-2 bg-[#D4A373] rounded-full"></div>
                           <span className="text-gray-600 text-sm">{amenity}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="flex space-x-4 pt-4">
-                    <Button className="bg-luxury-gold hover:bg-luxury-gold-dark text-white px-6 py-3 rounded-full font-inter font-medium transition-all duration-300 hover:scale-105">
-                      Book This Room
-                    </Button>
-                    <Button variant="outline" className="border-luxury-navy text-luxury-navy hover:bg-luxury-navy hover:text-white px-6 py-3 rounded-full font-inter font-medium transition-all duration-300">
+                  <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
+                    <Link to="/booking">
+                      <Button className="bg-[#D4A373] hover:bg-[#C89B66] text-white px-6 py-3 rounded-full font-sans font-medium transition-all duration-300 hover:scale-105 hover-lift">
+                        Book This Room
+                      </Button>
+                    </Link>
+                    <Button 
+                      variant="outline" 
+                      className="border-[#1A2A44] text-[#1A2A44] hover:bg-[#1A2A44] hover:text-white px-6 py-3 rounded-full font-sans font-medium transition-all duration-300 hover-lift"
+                    >
                       View Gallery
                     </Button>
                   </div>
@@ -207,21 +237,26 @@ const Rooms = () => {
       </section>
 
       {/* Booking CTA Section */}
-      <section className="py-20 bg-luxury-navy text-white">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-16 sm:py-20 bg-[#1A2A44] text-white">
+        <div className="container mx-auto px-4 sm:px-6 text-center">
           <div ref={addToRefs} className="max-w-3xl mx-auto space-y-6 opacity-0">
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold">
-              Ready to <span className="text-luxury-gold">Book Your Stay?</span>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold">
+              Ready to <span className="text-[#D4A373]">Book Your Stay?</span>
             </h2>
-            <p className="font-inter text-lg leading-relaxed opacity-90">
+            <p className="font-sans text-base sm:text-lg leading-relaxed opacity-90">
               Experience the perfect blend of luxury and comfort. Our rooms are designed 
               to provide you with an unforgettable stay in the heart of tranquil surroundings.
             </p>
-            <div className="space-y-4 sm:space-y-0 sm:space-x-6 sm:flex sm:justify-center pt-6">
-              <Button className="bg-luxury-gold hover:bg-luxury-gold-dark text-white px-8 py-4 text-lg rounded-full font-inter font-medium transition-all duration-300 hover:scale-105">
-                Book Now
-              </Button>
-              <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-luxury-navy px-8 py-4 text-lg rounded-full font-inter font-medium transition-all duration-300">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center pt-6">
+              <Link to="/booking">
+                <Button className="bg-[#D4A373] hover:bg-[#C89B66] text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full font-sans font-medium transition-all duration-300 hover:scale-105 hover-lift">
+                  Book Now
+                </Button>
+              </Link>
+              <Button 
+                variant="outline" 
+                className="border-2 border-white text-white hover:bg-white hover:text-[#1A2A44] px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg rounded-full font-sans font-medium transition-all duration-300 hover-lift"
+              >
                 Check Availability
               </Button>
             </div>

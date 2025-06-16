@@ -20,7 +20,6 @@ const Header = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
     { path: '/rooms', label: 'Rooms' },
     { path: '/amenities', label: 'Amenities' },
     { path: '/contact', label: 'Contact' },
@@ -46,7 +45,7 @@ const Header = () => {
             </div>
             <div>
               <h1 className="font-playfair font-bold text-xl text-luxury-navy">
-                Serenity
+                Somnath
               </h1>
               <p className="text-xs text-luxury-sage -mt-1">Guest House</p>
             </div>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -28,6 +27,7 @@ const Contact = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-fade-in');
+          observer.unobserve(entry.target); // Stop observing once animated
         }
       });
     }, observerOptions);
@@ -36,7 +36,11 @@ const Contact = () => {
       if (section) observer.observe(section);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      sectionsRef.current.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
   }, []);
 
   const addToRefs = (el: HTMLDivElement) => {
@@ -75,35 +79,55 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <Header />
 
+      {/* Inline CSS for Animation */}
+      <style>
+        {`
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+          }
+          .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+          }
+          .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+          }
+        `}
+      </style>
+
       {/* Hero Section */}
-      <section className="relative h-96 flex items-center justify-center bg-luxury-navy">
-        <div className="text-center text-white space-y-4 px-4">
-          <h1 className="font-playfair text-5xl md:text-6xl font-bold">
-            Contact <span className="text-luxury-gold">Us</span>
+      <section className="relative h-80 sm:h-96 flex items-center justify-center bg-[#1A2A44] text-white">
+        <div className="text-center space-y-4 px-4 sm:px-6">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+            Contact <span className="text-[#D4A373]">Us</span>
           </h1>
-          <p className="font-inter text-xl opacity-90 max-w-2xl mx-auto">
-            We're here to help make your stay perfect. Get in touch with our team.
+          <p className="font-sans text-base sm:text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
+            Our team is ready to make your stay unforgettable. Reach out today.
           </p>
         </div>
       </section>
 
       {/* Contact Form & Info Section */}
-      <section className="py-20 bg-luxury-cream">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <section className="py-16 sm:py-20 bg-[#F5F0E6]">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Contact Form */}
             <div ref={addToRefs} className="opacity-0">
-              <div className="bg-white rounded-2xl p-8 shadow-2xl">
-                <h2 className="font-playfair text-3xl font-bold text-luxury-navy mb-6">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl">
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1A2A44] mb-6">
                   Send Us a Message
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="name" className="block font-inter font-medium text-luxury-navy mb-2">
+                      <label htmlFor="name" className="block font-sans font-medium text-[#1A2A44] mb-2">
                         Full Name *
                       </label>
                       <input
@@ -113,12 +137,12 @@ const Contact = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-gold focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4A373] focus:border-transparent transition-all duration-300"
                         placeholder="Your full name"
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block font-inter font-medium text-luxury-navy mb-2">
+                      <label htmlFor="email" className="block font-sans font-medium text-[#1A2A44] mb-2">
                         Email Address *
                       </label>
                       <input
@@ -128,7 +152,7 @@ const Contact = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-gold focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4A373] focus:border-transparent transition-all duration-300"
                         placeholder="your@email.com"
                       />
                     </div>
@@ -136,7 +160,7 @@ const Contact = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="phone" className="block font-inter font-medium text-luxury-navy mb-2">
+                      <label htmlFor="phone" className="block font-sans font-medium text-[#1A2A44] mb-2">
                         Phone Number
                       </label>
                       <input
@@ -145,12 +169,12 @@ const Contact = () => {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-gold focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4A373] focus:border-transparent transition-all duration-300"
                         placeholder="+1 (555) 123-4567"
                       />
                     </div>
                     <div>
-                      <label htmlFor="subject" className="block font-inter font-medium text-luxury-navy mb-2">
+                      <label htmlFor="subject" className="block font-sans font-medium text-[#1A2A44] mb-2">
                         Subject *
                       </label>
                       <select
@@ -159,7 +183,7 @@ const Contact = () => {
                         value={formData.subject}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-gold focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4A373] focus:border-transparent transition-all duration-300"
                       >
                         <option value="">Select a subject</option>
                         <option value="reservation">Reservation Inquiry</option>
@@ -172,7 +196,7 @@ const Contact = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block font-inter font-medium text-luxury-navy mb-2">
+                    <label htmlFor="message" className="block font-sans font-medium text-[#1A2A44] mb-2">
                       Message *
                     </label>
                     <textarea
@@ -182,7 +206,7 @@ const Contact = () => {
                       onChange={handleInputChange}
                       required
                       rows={6}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-luxury-gold focus:border-transparent transition-all duration-300"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D4A373] focus:border-transparent transition-all duration-300"
                       placeholder="Tell us how we can help you..."
                     ></textarea>
                   </div>
@@ -190,7 +214,7 @@ const Contact = () => {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-luxury-gold hover:bg-luxury-gold-dark text-white px-8 py-4 text-lg rounded-full font-inter font-medium transition-all duration-300 hover:scale-105"
+                    className="w-full bg-[#D4A373] hover:bg-[#C89B66] text-white px-8 py-4 text-lg rounded-full font-sans font-medium transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#D4A373]"
                   >
                     {isSubmitting ? 'Sending...' : 'Send Message'}
                   </Button>
@@ -201,12 +225,11 @@ const Contact = () => {
             {/* Contact Information */}
             <div ref={addToRefs} className="space-y-8 opacity-0">
               <div>
-                <h2 className="font-playfair text-3xl font-bold text-luxury-navy mb-6">
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1A2A44] mb-6">
                   Get in Touch
                 </h2>
-                <p className="font-inter text-lg text-gray-600 leading-relaxed mb-8">
-                  Whether you're planning your stay, have questions about our amenities, 
-                  or need assistance during your visit, our team is here to help.
+                <p className="font-sans text-base sm:text-lg text-gray-600 leading-relaxed mb-8">
+                  Have questions about your stay or need help with amenities? Our team is here for you.
                 </p>
               </div>
 
@@ -216,26 +239,26 @@ const Contact = () => {
                   {
                     icon: <MapPin className="w-6 h-6" />,
                     title: "Address",
-                    details: ["123 Serene Valley Road", "Mountain View, CA 94041"],
-                    color: "bg-luxury-gold"
+                    details: ["Main Market Someshwar", "Almora Uttarakhand"],
+                    color: "bg-[#D4A373]"
                   },
                   {
                     icon: <Calendar className="w-6 h-6" />,
                     title: "Phone",
-                    details: ["+1 (555) 123-4567", "Available 7 AM - 10 PM"],
-                    color: "bg-luxury-sage"
+                    details: ["8923519805", "Available 7 AM - 10 PM"],
+                    color: "bg-[#6B7280]"
                   },
                   {
                     icon: <Users className="w-6 h-6" />,
                     title: "Email",
-                    details: ["info@serenityguesthouse.com", "Response within 24 hours"],
-                    color: "bg-luxury-navy"
+                    details: ["245boraneeraj@gmail.com", "Response within 24 hours"],
+                    color: "bg-[#1A2A44]"
                   },
                   {
                     icon: <Home className="w-6 h-6" />,
                     title: "Check-in Hours",
-                    details: ["Monday - Sunday", "3:00 PM - 11:00 PM"],
-                    color: "bg-luxury-gold"
+                    details: ["Monday - Sunday", "12:00 PM - 12:00 PM"],
+                    color: "bg-[#D4A373]"
                   }
                 ].map((contact, index) => (
                   <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover-lift">
@@ -244,11 +267,11 @@ const Contact = () => {
                         {contact.icon}
                       </div>
                       <div>
-                        <h3 className="font-playfair text-xl font-semibold text-luxury-navy mb-2">
+                        <h3 className="font-serif text-xl font-semibold text-[#1A2A44] mb-2">
                           {contact.title}
                         </h3>
                         {contact.details.map((detail, idx) => (
-                          <p key={idx} className="font-inter text-gray-600">
+                          <p key={idx} className="font-sans text-gray-600">
                             {detail}
                           </p>
                         ))}
@@ -259,15 +282,15 @@ const Contact = () => {
               </div>
 
               {/* Emergency Contact */}
-              <div className="bg-luxury-navy text-white rounded-2xl p-6">
-                <h3 className="font-playfair text-xl font-semibold mb-3">
+              <div className="bg-[#1A2A44] text-white rounded-2xl p-6">
+                <h3 className="font-serif text-xl font-semibold mb-3">
                   24/7 Emergency Contact
                 </h3>
-                <p className="font-inter mb-2">
+                <p className="font-sans mb-2">
                   For urgent matters outside business hours:
                 </p>
-                <p className="font-inter text-luxury-gold font-semibold text-lg">
-                  +1 (555) 911-HELP
+                <p className="font-sans text-[#D4A373] font-semibold text-lg">
+                  8923519805 , 7302644277
                 </p>
               </div>
             </div>
@@ -276,30 +299,29 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div ref={addToRefs} className="text-center mb-16 opacity-0">
-            <h2 className="font-playfair text-4xl font-bold text-luxury-navy mb-6">
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div ref={addToRefs} className="text-center mb-12 sm:mb-16 opacity-0">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1A2A44] mb-6">
               Find Us
             </h2>
-            <p className="font-inter text-lg text-gray-600 max-w-3xl mx-auto">
-              Located in the heart of the serene valley, our guest house is easily accessible 
-              yet perfectly secluded for your peaceful retreat.
+            <p className="font-sans text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+              Nestled in the serene valley, our guest house offers peace and easy access.
             </p>
           </div>
 
           <div ref={addToRefs} className="opacity-0">
-            <div className="bg-luxury-cream rounded-2xl p-8 text-center">
-              <div className="w-full h-96 bg-gray-300 rounded-xl flex items-center justify-center">
+            <div className="bg-[#F5F0E6] rounded-2xl p-6 sm:p-8 text-center">
+              <div className="w-full h-80 sm:h-96 bg-gray-200 rounded-xl flex items-center justify-center">
                 <div className="text-center space-y-4">
-                  <MapPin className="w-16 h-16 text-luxury-gold mx-auto" />
-                  <h3 className="font-playfair text-2xl font-semibold text-luxury-navy">
+                  <MapPin className="w-12 sm:w-16 h-12 sm:h-16 text-[#D4A373] mx-auto" />
+                  <h3 className="font-serif text-xl sm:text-2xl font-semibold text-[#1A2A44]">
                     Interactive Map
                   </h3>
-                  <p className="font-inter text-gray-600">
+                  <p className="font-sans text-gray-600">
                     Google Maps integration would be embedded here
                   </p>
-                  <Button className="bg-luxury-gold hover:bg-luxury-gold-dark text-white px-6 py-3 rounded-full">
+                  <Button className="bg-[#D4A373] hover:bg-[#C89B66] text-white px-6 py-3 rounded-full">
                     Open in Google Maps
                   </Button>
                 </div>

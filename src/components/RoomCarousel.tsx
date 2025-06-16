@@ -15,29 +15,31 @@ interface Room {
 const rooms: Room[] = [
   {
     id: 1,
-    name: "Deluxe Garden Suite",
-    description: "Spacious suite with a king-size bed, private garden terrace, and luxurious amenities for the ultimate comfort.",
-    image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
-    price: "$299/night",
-    features: ["King Size Bed", "Private Terrace", "Garden View", "Luxury Bath"]
+    name: "Room 1 ",
+    description: "A spacious suite featuring a King Size Bed, stunning Mountain View, convenient Market access, and a Personal Bathroom for ultimate comfort.",
+    image: "../../public/ner1.jpg",
+    price: "Negotiable: 1999/night",
+    features: ["King Size Bed", "Mountain View", "Market", "Personal Batroom"]
   },
   {
     id: 2,
-    name: "Mountain View Room",
-    description: "Elegant room featuring panoramic mountain views, modern furnishings, and a cozy seating area perfect for relaxation.",
-    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-    price: "$199/night",
-    features: ["Mountain View", "Queen Bed", "Work Desk", "Mini Bar"]
+    name: "Room 2",
+    description: "An elegant room with a breathtaking Mountain View, comfortable King Size Bed, functional Work Desk, and a Personal Bathroom for a relaxing stay.",
+    image: "../../public/ner2.jpg",
+    price: "Negotiable: 1999/night",
+    features: ["Mountain View", "King Size Bed", "Work Desk", "Personal Batroom"]
   },
   {
     id: 3,
-    name: "Romantic Hideaway",
-    description: "Intimate space designed for couples with premium bedding, ambient lighting, and special romantic touches throughout.",
-    image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625",
-    price: "$349/night",
-    features: ["King Size Bed", "Fireplace", "Private Balcony", "Champagne Service"]
+    name: "Room 3",
+    description: "An intimate space designed for couples, offering a luxurious King Size Bed, scenic Mountain View, Personal Bathroom, and Market access for a romantic getaway.",
+    image: "../../public/ner3.jpg",
+    price: "Negotiable: 1999/night",
+    features: ["King Size Bed", "Mountain View", "Personal Batroom", "Market"]
   }
 ];
+
+
 
 const RoomCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);

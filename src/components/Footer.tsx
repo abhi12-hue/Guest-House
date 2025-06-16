@@ -14,7 +14,7 @@ const Footer = () => {
                 <span className="text-white font-playfair font-bold text-lg">S</span>
               </div>
               <div>
-                <h3 className="font-playfair font-bold text-xl">Serenity</h3>
+                <h3 className="font-playfair font-bold text-xl">Somanth</h3>
                 <p className="text-sm text-luxury-gold -mt-1">Guest House</p>
               </div>
             </div>
@@ -52,17 +52,17 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-luxury-gold mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300">123 Serene Valley Road</p>
-                  <p className="text-gray-300">Mountain View, CA 94041</p>
+                  <p className="text-gray-300">Main Market Someshwar</p>
+                  <p className="text-gray-300">Almora Uttarkhand</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Calendar className="w-5 h-5 text-luxury-gold flex-shrink-0" />
-                <p className="text-gray-300">+1 (555) 123-4567</p>
+                <p className="text-gray-300">8923519805 , 7302644277</p>
               </div>
               <div className="flex items-center space-x-3">
                 <span className="w-5 h-5 text-luxury-gold flex-shrink-0">@</span>
-                <p className="text-gray-300">info@serenityguesthouse.com</p>
+                <p className="text-gray-300">245boraneeraj@gmail.com</p>
               </div>
             </div>
           </div>
@@ -88,7 +88,7 @@ const Footer = () => {
 
         <div className="border-t border-luxury-gold/30 mt-12 pt-8 text-center">
           <p className="text-gray-300 text-sm">
-            © 2024 Serenity Guest House. All rights reserved. Crafted with care for your comfort.
+            © 2025 Somanth Guest House. All rights reserved. Crafted with care for your comfort.
           </p>
         </div>
       </div>
