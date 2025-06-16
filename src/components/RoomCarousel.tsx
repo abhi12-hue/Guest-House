@@ -17,7 +17,7 @@ const rooms: Room[] = [
     id: 1,
     name: "Room 1 ",
     description: "A spacious suite featuring a King Size Bed, stunning Mountain View, convenient Market access, and a Personal Bathroom for ultimate comfort.",
-    image: "../../public/ner1.jpg",
+    image: "/ner1.jpg",
     price: "Negotiable: 1999/night",
     features: ["King Size Bed", "Mountain View", "Market", "Personal Batroom"]
   },
@@ -25,7 +25,7 @@ const rooms: Room[] = [
     id: 2,
     name: "Room 2",
     description: "An elegant room with a breathtaking Mountain View, comfortable King Size Bed, functional Work Desk, and a Personal Bathroom for a relaxing stay.",
-    image: "../../public/ner2.jpg",
+    image: "/ner2.jpg",
     price: "Negotiable: 1999/night",
     features: ["Mountain View", "King Size Bed", "Work Desk", "Personal Batroom"]
   },
@@ -33,7 +33,7 @@ const rooms: Room[] = [
     id: 3,
     name: "Room 3",
     description: "An intimate space designed for couples, offering a luxurious King Size Bed, scenic Mountain View, Personal Bathroom, and Market access for a romantic getaway.",
-    image: "../../public/ner3.jpg",
+    image: "/ner3.jpg",
     price: "Negotiable: 1999/night",
     features: ["King Size Bed", "Mountain View", "Personal Batroom", "Market"]
   }

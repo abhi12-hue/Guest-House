@@ -51,7 +51,7 @@ const Rooms = () => {
      price: "Negotiable: 1999/night",
       amenities: ["Private Garden Terrace", "Luxury Marble Bathroom", "Walk-in Closet", "Coffee Station", "High-Speed WiFi"],
       description: "Our most spacious accommodation featuring a private garden terrace with stunning mountain views. Perfect for romantic getaways or special occasions.",
-      image: "../../public/ner1.jpg"
+      image: "/ner1.jpg"
     },
     {
       name: "Room 2",
@@ -62,7 +62,7 @@ const Rooms = () => {
       price: "Negotiable: 1999/night",
       amenities: ["Panoramic Mountain Views", "Work Desk", "Seating Area",],
       description: "Elegantly appointed room with floor-to-ceiling windows offering breathtaking mountain vistas. Ideal for business travelers and nature enthusiasts.",
-      image: "../../public/ner2.jpg"
+      image: "/ner2.jpg"
     },
     {
       name: "Room 3",
@@ -73,7 +73,7 @@ const Rooms = () => {
       price: "Negotiable: 1999/night",
       amenities: ["Champagne Service", "Rose Petal Turndown", "Luxury Bath Products", "Private Balcony", "Romantic Lighting"],
       description: "An intimate retreat designed for couples, featuring a cozy fireplace and private balcony. Includes romantic touches and premium amenities.",
-      image: "../../public/ner3.jpg"
+      image: "/ner3.jpg"
     }
   ];
 
